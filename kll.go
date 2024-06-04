@@ -29,6 +29,10 @@ func New(k int) *Sketch {
 	return &s
 }
 
+func (s *Sketch) GetSize() int {
+	return s.size
+}
+
 func (s *Sketch) grow() {
 	s.compactors = append(s.compactors, compactor{})
 	s.H = len(s.compactors)

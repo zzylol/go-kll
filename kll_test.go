@@ -49,7 +49,7 @@ func TestCompactorInsertionSort(t *testing.T) {
 	for _, dup := range []bool{false, true} {
 		for _, l := range []int{0, 1, 2, 3, 5, 8, 1 << 5, 1 << 10} {
 			for i := 0; i < 100; i++ {
-				c := make(compactor, l)
+				c := make(Compactor, l)
 				for i := range c {
 					if dup && i%2 == 1 {
 						c[i] = c[i-1]
@@ -57,7 +57,7 @@ func TestCompactorInsertionSort(t *testing.T) {
 						c[i] = rng.NormFloat64()
 					}
 				}
-				cp := make(compactor, l)
+				cp := make(Compactor, l)
 				copy(cp, c)
 				c.insertionSort()
 				if !sort.Float64sAreSorted([]float64(c)) {

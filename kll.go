@@ -7,6 +7,7 @@ package kll
 import (
 	"math"
 	"sort"
+	"unsafe"
 )
 
 // Sketch is a streaming quantiles sketch
@@ -147,6 +148,15 @@ func (q CDF) Swap(i int, j int) { q[i], q[j] = q[j], q[i] }
 type Quantile struct {
 	Q float64
 	V float64
+}
+
+func (s *Sketch) GetMemoryBytes() float64 {
+	var total_mem float64 = 0
+	total_mem += float64(unsafe.Sizeof(*s))
+	for i := range s.Compactors {
+		total_mem += float64(len(s.Compactors[i])) * 8
+	}
+	return total_mem // Bytes
 }
 
 func (s *Sketch) CDF() CDF {
